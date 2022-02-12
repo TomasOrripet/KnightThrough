@@ -9,8 +9,6 @@ public class Environment {
         this.width = width;
         this.length = length;
         this.currentState = new State(width, length);
-
-        System.out.printf("percepts: " + width, length);
     }
 
     public void updateboard(int y1,int x1,int x2,int y2,String role){
@@ -26,29 +24,6 @@ public class Environment {
     public Str ing toString() {
         return "Environment{\n" + currentState.toString()+'}';
     }
-
-
-
-    /*public void init(int width, int length) {
-        System.out.printf("percepts: " + width, length);
-        currentState = new State(width, length);
-    }
-
-    public State getNextState(Coordinates movedfrom, Coordinates movedto){
-        //currentState = currentState.moveKnight(movedfrom, movedto);
-        return currentState;
-    }
-*/
-/*    /**
-     * @return the current state of the environment
-
-
-    public State getCurrentState() {
-        return currentState;
-    }
-
- */
-
 }
 
 
