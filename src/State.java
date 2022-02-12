@@ -4,7 +4,7 @@ import java.util.List;
 
 public class State {
     int width;
-    int height;
+    int length;
 
     List<List<Integer>> whitePieces;
     List<List<Integer>> blackPieces;
@@ -12,12 +12,12 @@ public class State {
     ArrayList<State> stateMoves;
     String role;
 
-    public State(int width, int height, String role){
+    public State(int width, int length, String role){
         this.whitePieces = new ArrayList<List<Integer>>();
         this.blackPieces = new ArrayList<List<Integer>>();
         this.role = role;
         this.width = width;
-        this.height = height;
+        this.length = length;
 
         // initialize friendly pieces
         for(int i=1; i < width+1; i++){
@@ -36,12 +36,12 @@ public class State {
         for(int i=1; i < width+1; i++){
             List<Integer> backrank = new ArrayList<Integer>();
             backrank.add(i); // x coordinate
-            backrank.add(height); // y coordinate
+            backrank.add(length); // y coordinate
             blackPieces.add(backrank);
 
             List<Integer> frontrank = new ArrayList<Integer>();
             frontrank.add(i); // x coordinate
-            frontrank.add(height-1); // y coordinate
+            frontrank.add(length-1); // y coordinate
             blackPieces.add(frontrank);
         }
     }
@@ -74,7 +74,7 @@ public class State {
                 tempBlackPieces.remove(Arrays.asList(x1,y1));
                 tempBlackPieces.add(Arrays.asList(x2,y2));
             }
-            State returnState = new State(width, height, role);
+            State returnState = new State(width, length, role);
             returnState.blackPieces = tempBlackPieces;
             returnState.whitePieces = tempWhitePieces;
             return returnState;
@@ -130,28 +130,28 @@ public class State {
 
 
         // can you move up two and one to the right?
-        if(!whitePieces.contains(Arrays.asList(position[0]+1,position[1]+2)) && !blackPieces.contains(Arrays.asList(position[0]+1,position[1]+2)) && (0 < position[0]+1 && position[0]+1 <= width) && (0 < position[1]+2 && position[1]+2 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]+1,position[1]+2)) && !blackPieces.contains(Arrays.asList(position[0]+1,position[1]+2)) && (0 < position[0]+1 && position[0]+1 <= width) && (0 < position[1]+2 && position[1]+2 <= length)){
             System.out.println("You can move this guy up two and to the right");
             moves.add(Arrays.asList(position[0], position[1], position[0]+1,position[1]+2));
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]+1,position[1]+2)));
         }
 
         // can you move up two and one to the left?
-        if(!whitePieces.contains(Arrays.asList(position[0]-1,position[1]+2)) && !blackPieces.contains(Arrays.asList(position[0]-1,position[1]+2)) && (0 < position[0]-1 && position[0]-1 <= width) && (0 < position[1]+2 && position[1]+2 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]-1,position[1]+2)) && !blackPieces.contains(Arrays.asList(position[0]-1,position[1]+2)) && (0 < position[0]-1 && position[0]-1 <= width) && (0 < position[1]+2 && position[1]+2 <= length)){
             System.out.println("You can move this guy up two and to the left");
             moves.add(Arrays.asList(position[0], position[1], position[0]-1,position[1]+2));
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]-1,position[1]+2)));
         }
 
         // can you move two to the left and one up?
-        if(!whitePieces.contains(Arrays.asList(position[0]-2,position[1]+1)) && !blackPieces.contains(Arrays.asList(position[0]-2,position[1]+1)) && (0 < position[0]-2 && position[0]-2 <= width) && (0 < position[1]+1 && position[1]+1 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]-2,position[1]+1)) && !blackPieces.contains(Arrays.asList(position[0]-2,position[1]+1)) && (0 < position[0]-2 && position[0]-2 <= width) && (0 < position[1]+1 && position[1]+1 <= length)){
             System.out.println("You can move this guy up one and two to the left");
             moves.add(Arrays.asList(position[0], position[1], position[0]-2,position[1]+1));
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]-2,position[1]+1)));
         }
 
         // can you move two the right and one up?
-        if(!whitePieces.contains(Arrays.asList(position[0]+2,position[1]+1)) && !blackPieces.contains(Arrays.asList(position[0]+2,position[1]+1)) && (0 < position[0]+2 && position[0]+2 <= width) && (0 < position[1]+1 && position[1]+1 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]+2,position[1]+1)) && !blackPieces.contains(Arrays.asList(position[0]+2,position[1]+1)) && (0 < position[0]+2 && position[0]+2 <= width) && (0 < position[1]+1 && position[1]+1 <= length)){
             System.out.println("You can move this guy up one and two to the right");
             moves.add(Arrays.asList(position[0], position[1], position[0]+2,position[1]+1));
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]+2,position[1]+1)));
@@ -180,25 +180,25 @@ public class State {
         ArrayList<List<Integer>> moves = new ArrayList<List<Integer>>();
         ArrayList<State> states = new ArrayList<State>();
         // can you move down two and one to the right?
-        if(!whitePieces.contains(Arrays.asList(position[0]+1,position[1]-2)) && !blackPieces.contains(Arrays.asList(position[0]+1,position[1]-2)) && (0 < position[0]+1 && position[0]+1 <= width) && (0 < position[1]-2 && position[1]-2 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]+1,position[1]-2)) && !blackPieces.contains(Arrays.asList(position[0]+1,position[1]-2)) && (0 < position[0]+1 && position[0]+1 <= width) && (0 < position[1]-2 && position[1]-2 <= length)){
             System.out.println("You can move this guy up two and to the right");
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]+1,position[1]-2)));
         }
 
         // can you move down two and one to the left?
-        if(!whitePieces.contains(Arrays.asList(position[0]-1,position[1]-2)) && !blackPieces.contains(Arrays.asList(position[0]-1,position[1]-2)) && (0 < position[0]-1 && position[0]-1 <= width) && (0 < position[1]-2 && position[1]-2 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]-1,position[1]-2)) && !blackPieces.contains(Arrays.asList(position[0]-1,position[1]-2)) && (0 < position[0]-1 && position[0]-1 <= width) && (0 < position[1]-2 && position[1]-2 <= length)){
             System.out.println("You can move this guy up two and to the left");
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]-1,position[1]-2)));
         }
 
         // can you move two to the left and one down?
-        if(!whitePieces.contains(Arrays.asList(position[0]-2,position[1]-1)) && !blackPieces.contains(Arrays.asList(position[0]-2,position[1]-1)) && (0 < position[0]-2 && position[0]-2 <= width) && (0 < position[1]+1 && position[1]-1 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]-2,position[1]-1)) && !blackPieces.contains(Arrays.asList(position[0]-2,position[1]-1)) && (0 < position[0]-2 && position[0]-2 <= width) && (0 < position[1]+1 && position[1]-1 <= length)){
             System.out.println("You can move this guy up one and two to the left");
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]-2,position[1]-1)));
         }
 
         // can you move two the right and one down?
-        if(!whitePieces.contains(Arrays.asList(position[0]+2,position[1]-1)) && !blackPieces.contains(Arrays.asList(position[0]+2,position[1]-1)) && (0 < position[0]+2 && position[0]+2 <= width) && (0 < position[1]+1 && position[1]-1 <= height)){
+        if(!whitePieces.contains(Arrays.asList(position[0]+2,position[1]-1)) && !blackPieces.contains(Arrays.asList(position[0]+2,position[1]-1)) && (0 < position[0]+2 && position[0]+2 <= width) && (0 < position[1]+1 && position[1]-1 <= length)){
             System.out.println("You can move this guy up one and two to the right");
             states.add(movePiece(Arrays.asList(position[0], position[1], position[0]+2,position[1]-1)));
         }
