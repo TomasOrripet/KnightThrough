@@ -1,4 +1,4 @@
-public class Heuristic1 implements Heuristics{
+/*public class Heuristic1 implements Heuristics{
 
     private Environment env;
 
@@ -8,7 +8,7 @@ public class Heuristic1 implements Heuristics{
     public void init(Environment env) {
         this.env = env;
     }
-
+*/
     /*
     Heuristic value
     +1 for each space up the board
@@ -19,7 +19,7 @@ public class Heuristic1 implements Heuristics{
     return 100 if opponent can win
      */
 
-
+/*
     public int eval(State s) {
         int h = 0;
         while(s.white.listIterator().hasNext()){
@@ -37,5 +37,5 @@ public class Heuristic1 implements Heuristics{
         }
         h+= (s.white.size()-s.black.size())*10;
         return h;
-    }
-}
+    }*/
+//}

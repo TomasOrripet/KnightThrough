@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Random;
 
 public class MyAgent implements Agent {
@@ -20,7 +21,7 @@ public class MyAgent implements Agent {
         myTurn = !role.equals("white");
         this.width = width;
         this.height = height;
-        this.env = new Environment(width, height, role);
+        this.env = new Environment(width,height,role);
 
 
         // TODO: add your own initialation code here
@@ -39,9 +40,10 @@ public class MyAgent implements Agent {
                 roleOfLastPlayer = "black";
             }
             System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
-            env.updateboard(x1,y1,x2,y2, roleOfLastPlayer.toUpperCase());
-            System.out.println(env);
-            System.out.println(env.currentState.black);
+            System.out.println(env.getAvailableMoves());
+            System.out.println(env.whitePieces);
+            System.out.println(env.blackPieces);
+
 
             // TODO: 1. update your internal world model according to the action that was just executed
 
@@ -51,32 +53,17 @@ public class MyAgent implements Agent {
         myTurn = !myTurn;
 
         if (myTurn) {
+            System.out.println(env.getAvailableMoves());
+            List<Integer> allMoves = env.getAvailableMoves().get(3);//random.nextInt(10));
+            int[] move = allMoves.stream().mapToInt(i->i).toArray();
             // TODO: 2. run alpha-beta search to determine the best move
             int index;
-            index = random.nextInt(env.knights.size());
+
             // Here we just construct a random move (that will most likely not even be possible),
             // this needs to be replaced with the actual best move.
-
             int x1, y1, x2, y2;
 
-            System.out.println("knight: "+env.knights.get(index));
-            x1 = env.knights.get(index).x;
-            y1 = env.knights.get(index).y;
-            if (role.equals("white")) {
-                x2 = x1 + 1;
-                y2 = y1 + 2;
-                //y1 = random.nextInt(height - 1);
-                //y2 = y1 + 1;
-                env.makemove(x1,y1,x2,y2);
-            } else {
-                x2 = x1 + 1;
-                y2 = y1 - 2;
-                //y1 = random.nextInt(height - 1) + 2;
-                //y2 = y1 - 1;
-                env.makemove(x1,y1,x2,y2);
-            }
-
-            return "(move " + x1 + " " + y1 + " " + x2 + " " + y2 + ")";
+            return "(move " + move[0] + " " + move[1] + " " + move[2] + " " + move[3] + ")";
         } else {
             return "noop";
         }
