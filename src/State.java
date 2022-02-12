@@ -5,11 +5,23 @@ import java.util.List;
 public class State {
 
     public List<String> temp;
-    public ArrayList<List> board;
+    public ArrayList<List<String>> board;
+    public ArrayList<Coordinates> whiteknights, blackknights;
 
     public State(int width, int length) {
 
-        board = new ArrayList<List>();
+        board = new ArrayList<List<String>>();
+        whiteknights = new ArrayList<Coordinates>();
+        blackknights = new ArrayList<Coordinates>();
+        for(int i = 0; i<width; i++){
+            whiteknights.add(new Coordinates(i,0));
+            whiteknights.add(new Coordinates(i,1));
+        }
+
+        for(int i = 0; i<width; i++) {
+            blackknights.add(new Coordinates(i, length - 1));
+            blackknights.add(new Coordinates(i, length - 2));
+        }
         for(int l = 0; l<2;l++ ){
             temp = new ArrayList<String>();
             for(int w = 0; w < width; w++){
@@ -34,9 +46,29 @@ public class State {
 
     }
 
+    public boolean isempty(int x,int y){
+        if (board.get(y).get(x) == " " ){
+            return true;
+        }
+        return false;
+
+    }
+    public boolean canattack(int x, int y, String role){
+        if (board.get(y).get(x) == role ) {
+            return true;
+        }
+        return false;
+    }
+
     public void updateboard(int x1,int y1,int x2,int y2,String role){
         board.get(y1-1).set(x1-1, " ");
-        board.get(y2-1).set(x2-1,role.charAt(0));
+        if (board.get(y2-1).get(x2-1) == "B"){
+            blackknights.remove(new Coordinates(x2-1,y2-1));
+        }
+        else if (board.get(y2-1).get(x2-1) == "W"){
+            whiteknights.remove(new Coordinates(x2-1,y2-1));
+        }
+        board.get(y2-1).set(x2-1, role);
 
     }
 
