@@ -41,7 +41,7 @@ public class MyAgent implements Agent {
             System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
             env.updateboard(x1,y1,x2,y2, roleOfLastPlayer.toUpperCase());
             System.out.println(env);
-            System.out.println(env.knights);
+            System.out.println(env.currentState.black);
 
             // TODO: 1. update your internal world model according to the action that was just executed
 
