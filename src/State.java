@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -6,9 +7,25 @@ public class State {
 
     public List<String> temp;
     public ArrayList<List> board;
+    public int width, length;
+    public LinkedList<Coordinates> black, white;
 
     public State(int width, int length) {
+        this.width = width;
+        this.length = length;
+        black = new LinkedList<Coordinates>();
+        white = new LinkedList<Coordinates>();
+        for(int i = 0; i<length-1; i++)
+        {
+            white.add(new Coordinates(i,0));
+            white.add(new Coordinates(i,1));
+        }
 
+        for(int i = 0; i<length-1; i++)
+        {
+            black.add(new Coordinates(i, length - 1));
+            black.add(new Coordinates(i, length - 2));
+        }
         board = new ArrayList<List>();
         for(int l = 0; l<2;l++ ){
             temp = new ArrayList<String>();

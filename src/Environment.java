@@ -4,26 +4,12 @@ public class Environment {
 
     public int width, length;
     public State currentState;
-    public ArrayList<Coordinates> knights;
-
 
     public Environment(int width, int length, String role) {
         this.width = width;
         this.length = length;
         this.currentState = new State(width, length);
-        knights = new ArrayList<Coordinates>();
-        if (role == "white"){
-            for(int i = 0; i<length-1; i++){
-                knights.add(new Coordinates(i,0));
-                knights.add(new Coordinates(i,1));
-            }
-        }
-        else{
-            for(int i = 0; i<length-1; i++) {
-                knights.add(new Coordinates(i, length-1));
-                knights.add(new Coordinates(i, length - 2));
-            }
-        }
+
         System.out.printf("percepts: " + width, length);
     }
 
