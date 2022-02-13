@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Random;
 
 public class MyAgent implements Agent {
@@ -17,6 +18,7 @@ public class MyAgent implements Agent {
     public void init(String role, int width, int height, int playclock) {
         this.role = role;
         this.playclock = playclock;
+        System.out.printf(role);
         myTurn = !role.equals("white");
         this.width = width;
         this.height = height;
@@ -35,13 +37,17 @@ public class MyAgent implements Agent {
             String roleOfLastPlayer;
             if (myTurn && role.equals("white") || !myTurn && role.equals("black")) {
                 roleOfLastPlayer = "white";
+                env.updateboard(x1,y1,x2,y2, "W");
             } else {
                 roleOfLastPlayer = "black";
+                env.updateboard(x1,y1,x2,y2, "B");
             }
             System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
-            env.updateboard(x1,y1,x2,y2, roleOfLastPlayer.toUpperCase());
+            // prints board
             System.out.println(env);
-            System.out.println(env.knights);
+            // prints black and white knights
+            System.out.println("black:" + env.currentState.blackknights);
+            System.out.println("white: " + env.currentState.whiteknights);
 
             // TODO: 1. update your internal world model according to the action that was just executed
 
@@ -51,31 +57,28 @@ public class MyAgent implements Agent {
         myTurn = !myTurn;
 
         if (myTurn) {
-            // TODO: 2. run alpha-beta search to determine the best move
-            int index;
-            index = random.nextInt(env.knights.size());
-            // Here we just construct a random move (that will most likely not even be possible),
-            // this needs to be replaced with the actual best move.
-
-            int x1, y1, x2, y2;
-
-            System.out.println("knight: "+env.knights.get(index));
-            x1 = env.knights.get(index).x;
-            y1 = env.knights.get(index).y;
-            if (role.equals("white")) {
-                x2 = x1 + 1;
-                y2 = y1 + 2;
-                //y1 = random.nextInt(height - 1);
-                //y2 = y1 + 1;
-                env.makemove(x1,y1,x2,y2);
-            } else {
-                x2 = x1 + 1;
-                y2 = y1 - 2;
-                //y1 = random.nextInt(height - 1) + 2;
-                //y2 = y1 - 1;
-                env.makemove(x1,y1,x2,y2);
+            LinkedList<LinkedList<Coordinates>> legalMoves = env.getLegalMoves();
+            //shows knight and its legal moves
+            for(int i =0; i<legalMoves.size();i++) {
+                System.out.printf("knight:" + legalMoves.get(i).get(0) + "\n");
+                System.out.printf("\tLegal moves: " + legalMoves.get(i).subList(1, legalMoves.get(i).size())+"\n");
             }
-
+            // TODO: 2. run alpha-beta search to determine the best move
+            int index = random.nextInt(legalMoves.size());
+            LinkedList<Coordinates> move = legalMoves.get(index);
+            
+            // if knight has no moves we get new knight
+            // TODO: we should implement the search here
+            // after we get all moves we search through them all
+            while(move.size() <= 1){
+                index = random.nextInt(legalMoves.size());
+                move = legalMoves.get(index);
+            }
+            int x1, y1, x2, y2;
+            x1 = move.get(0).x+1;
+            y1 = move.get(0).y+1;
+            x2 = move.get(1).x+1;
+            y2 = move.get(1).y+1;
             return "(move " + x1 + " " + y1 + " " + x2 + " " + y2 + ")";
         } else {
             return "noop";
