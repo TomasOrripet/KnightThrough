@@ -37,15 +37,15 @@ public class MyAgent implements Agent {
             String roleOfLastPlayer;
             if (myTurn && role.equals("white") || !myTurn && role.equals("black")) {
                 roleOfLastPlayer = "white";
-                env.updateboard(x1,y1,x2,y2,"W");
+                env.updateboard(x1,y1,x2,y2, "W");
             } else {
                 roleOfLastPlayer = "black";
-                env.updateboard(x1,y1,x2,y2,"B");
+                env.updateboard(x1,y1,x2,y2, "B");
             }
             System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
+            // prints board
             System.out.println(env);
-            //System.out.println("Legal Moves: "+ env.getlegalmoves());
-            System.out.println("MYROLE: "+role);
+            // prints black and white knights
             System.out.println("black:" + env.currentState.blackknights);
             System.out.println("white: " + env.currentState.whiteknights);
 
@@ -57,30 +57,28 @@ public class MyAgent implements Agent {
         myTurn = !myTurn;
 
         if (myTurn) {
-            System.out.println("my turn ");
-
-            LinkedList<LinkedList<Coordinates>> legalmoves = env.getlegalmoves();
-            System.out.println("Legal Moves: "+ legalmoves);
-
+            LinkedList<LinkedList<Coordinates>> legalMoves = env.getLegalMoves();
+            //shows knight and its legal moves
+            for(int i =0; i<legalMoves.size();i++) {
+                System.out.printf("knight:" + legalMoves.get(i).get(0) + "\n");
+                System.out.printf("\tLegal moves: " + legalMoves.get(i).subList(1, legalMoves.get(i).size())+"\n");
+            }
             // TODO: 2. run alpha-beta search to determine the best move
-            int index = random.nextInt(legalmoves.size());
-            // Here we just construct a random move (that will most likely not even be possible),
-            // this needs to be replaced with the actual best move.
-            LinkedList<Coordinates> move = legalmoves.get(index);
-            System.out.println("Move: "+ move);
-
+            int index = random.nextInt(legalMoves.size());
+            LinkedList<Coordinates> move = legalMoves.get(index);
+            
+            // if knight has no moves we get new knight
+            // TODO: we should implement the search here
+            // after we get all moves we search through them all
+            while(move.size() <= 1){
+                index = random.nextInt(legalMoves.size());
+                move = legalMoves.get(index);
+            }
             int x1, y1, x2, y2;
             x1 = move.get(0).x+1;
             y1 = move.get(0).y+1;
             x2 = move.get(1).x+1;
             y2 = move.get(1).y+1;
-
-
-
-            env.makemove(x1-1,y1-1,x2-1,y2-1);
-
-
-
             return "(move " + x1 + " " + y1 + " " + x2 + " " + y2 + ")";
         } else {
             return "noop";
