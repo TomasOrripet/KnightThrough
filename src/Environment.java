@@ -60,23 +60,23 @@ public class Environment {
                 LinkedList<Coordinates> legalmove = new LinkedList<Coordinates>();
                 Coordinates place = knightlist.next();
                 legalmove.add(place);
-                if ((place.x - 2 >= 0) && place.y + 1 >= 0 && currentState.isEmpty(place.x - 2, place.y + 1)) {
+                if ((place.x - 2 >= 0) && place.y + 1 < length && currentState.isEmpty(place.x - 2, place.y + 1)) {
                     legalmove.add(new Coordinates(place.x - 2, place.y + 1));
                 }
-                if ((place.x - 1 >= 0) && place.y + 2 >= 0 && currentState.isEmpty(place.x - 1, place.y + 2)) {
+                if ((place.x - 1 >= 0) && place.y + 2 < length && currentState.isEmpty(place.x - 1, place.y + 2)) {
                     legalmove.add(new Coordinates(place.x - 1, place.y + 2));
                 }
-                if ((place.x + 2 < width) && place.y + 1 >= 0 && currentState.isEmpty(place.x + 2, place.y + 1)) {
+                if ((place.x + 2 < width) && place.y + 1 < length && currentState.isEmpty(place.x + 2, place.y + 1)) {
                     legalmove.add(new Coordinates(place.x + 2, place.y + 1));
                 }
-                if ((place.x + 1 < width) && place.y + 2 >= 0 && currentState.isEmpty(place.x + 1, place.y + 2)) {
+                if ((place.x + 1 < width) && place.y + 2 < length && currentState.isEmpty(place.x + 1, place.y + 2)) {
                     legalmove.add(new Coordinates(place.x + 1, place.y + 2));
                 }
                 //attacks
-                if ((place.x + 1 < width) && place.y + 1 >= 0 && currentState.canAttack(place.x + 1, place.y + 1, "B")) {
+                if ((place.x + 1 < width) && place.y + 1 < length && currentState.canAttack(place.x + 1, place.y + 1, "B")) {
                     legalmove.add(new Coordinates(place.x + 1, place.y + 1));
                 }
-                if ((place.x - 1 >= 0) && place.y + 1 >= 0 && currentState.canAttack(place.x - 1, place.y + 1, "B")) {
+                if ((place.x - 1 >= 0) && place.y + 1 < length && currentState.canAttack(place.x - 1, place.y + 1, "B")) {
                     legalmove.add(new Coordinates(place.x - 1, place.y + 1));
                 }
                 legalmoves.add(legalmove);
