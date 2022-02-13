@@ -8,6 +8,7 @@ public class Environment {
 
     public int width, length;
     public State currentState;
+    private boolean role; // if agent is white then true
     //public LinkedList<Coordinates>;
 
 
@@ -16,6 +17,8 @@ public class Environment {
         this.width = width;
         this.length = length;
         this.currentState = new State(width, length);
+        this.role = role.equals("white");
+
 
         System.out.printf("percepts: " + width, length);
     }
@@ -31,38 +34,63 @@ public class Environment {
     }
 
     public LinkedList<LinkedList<Coordinates>> getlegalmoves(){
+        System.out.print(role);
         LinkedList<LinkedList<Coordinates>> legalmoves = new LinkedList<LinkedList<Coordinates>>();
-        ListIterator<Coordinates> knightlist = currentState.blackknights.listIterator();
-        while (knightlist.hasNext()) {
-            LinkedList<Coordinates> legalmove = new LinkedList<Coordinates>();
-            Coordinates place = knightlist.next();
-            legalmove.add(place);
-            if ((place.x - 2 >= 0) && place.y-1 >= 0 && currentState.isempty(place.x-2, place.y-1))  {
-               legalmove.add(new Coordinates(place.x - 2, place.y - 1));
-
+        if (role) {
+            ListIterator<Coordinates> knightlist = currentState.whiteknights.listIterator();
+            while (knightlist.hasNext()) {
+                LinkedList<Coordinates> legalmove = new LinkedList<Coordinates>();
+                Coordinates place = knightlist.next();
+                legalmove.add(place);
+                if ((place.x - 2 >= 0) && place.y + 1 >= 0 && currentState.isempty(place.x - 2, place.y + 1)) {
+                    legalmove.add(new Coordinates(place.x - 2, place.y + 1));
+                }
+                if ((place.x - 1 >= 0) && place.y + 2 >= 0 && currentState.isempty(place.x - 1, place.y + 2)) {
+                    legalmove.add(new Coordinates(place.x - 1, place.y + 2));
+                }
+                if ((place.x + 2 < width) && place.y + 1 >= 0 && currentState.isempty(place.x + 2, place.y + 1)) {
+                    legalmove.add(new Coordinates(place.x + 2, place.y + 1));
+                }
+                if ((place.x + 1 < width) && place.y + 2 >= 0 && currentState.isempty(place.x + 1, place.y + 2)) {
+                    legalmove.add(new Coordinates(place.x + 1, place.y + 2));
+                }
+                //attacks
+                if ((place.x + 1 < width) && place.y + 1 >= 0 && currentState.canattack(place.x + 1, place.y + 1, "B")) {
+                    legalmove.add(new Coordinates(place.x + 1, place.y + 1));
+                }
+                if ((place.x - 1 >= 0) && place.y + 1 >= 0 && currentState.canattack(place.x - 1, place.y + 1, "B")) {
+                    legalmove.add(new Coordinates(place.x - 1, place.y + 1));
+                }
+                legalmoves.add(legalmove);
             }
-            if ((place.x - 1 >= 0) && place.y-2 >= 0 && currentState.isempty(place.x-1, place.y-2))  {
-                legalmove.add(new Coordinates(place.x - 1, place.y - 2));
-
+        }
+        else {
+            ListIterator<Coordinates> knightlist = currentState.blackknights.listIterator();
+            while (knightlist.hasNext()) {
+                LinkedList<Coordinates> legalmove = new LinkedList<Coordinates>();
+                Coordinates place = knightlist.next();
+                legalmove.add(place);
+                if ((place.x - 2 >= 0) && place.y - 1 >= 0 && currentState.isempty(place.x - 2, place.y - 1)) {
+                    legalmove.add(new Coordinates(place.x - 2, place.y - 1));
+                }
+                if ((place.x - 1 >= 0) && place.y - 2 >= 0 && currentState.isempty(place.x - 1, place.y - 2)) {
+                    legalmove.add(new Coordinates(place.x - 1, place.y - 2));
+                }
+                if ((place.x + 2 < width) && place.y - 1 >= 0 && currentState.isempty(place.x + 2, place.y - 1)) {
+                    legalmove.add(new Coordinates(place.x + 2, place.y - 1));
+                }
+                if ((place.x + 1 < width) && place.y - 2 >= 0 && currentState.isempty(place.x + 1, place.y - 2)) {
+                    legalmove.add(new Coordinates(place.x + 1, place.y - 2));
+                }
+                //attacks
+                if ((place.x + 1 < width) && place.y - 1 >= 0 && currentState.canattack(place.x + 1, place.y - 1, "W")) {
+                    legalmove.add(new Coordinates(place.x + 1, place.y - 1));
+                }
+                if ((place.x - 1 >= 0) && place.y - 1 >= 0 && currentState.canattack(place.x - 1, place.y - 1, "W")) {
+                    legalmove.add(new Coordinates(place.x - 1, place.y - 1));
+                }
+                legalmoves.add(legalmove);
             }
-            if ((place.x + 2 < width) && place.y-1 >= 0 && currentState.isempty(place.x+2, place.y-1))  {
-                legalmove.add(new Coordinates(place.x+2, place.y-1));
-
-            }
-            if ((place.x + 1 < width) && place.y-2 >= 0 && currentState.isempty(place.x+1, place.y-2))  {
-                legalmove.add(new Coordinates(place.x+1, place.y-2));
-
-            }
-            //attacks
-            if ((place.x + 1 < width) && place.y-1 >= 0 && currentState.canattack(place.x+1, place.y-1, "W")) {
-                legalmove.add(new Coordinates(place.x+1, place.y-1));
-
-            }
-            if ((place.x - 1 >= 0) && place.y-1 >= 0 && currentState.canattack(place.x-1, place.y-1,"W")) {
-                legalmove.add(new Coordinates(place.x-1, place.y-1));
-
-            }
-            legalmoves.add(legalmove);
         }
         return legalmoves;
     }

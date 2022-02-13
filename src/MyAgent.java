@@ -18,6 +18,7 @@ public class MyAgent implements Agent {
     public void init(String role, int width, int height, int playclock) {
         this.role = role;
         this.playclock = playclock;
+        System.out.printf(role);
         myTurn = !role.equals("white");
         this.width = width;
         this.height = height;
@@ -44,7 +45,9 @@ public class MyAgent implements Agent {
             System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
             System.out.println(env);
             //System.out.println("Legal Moves: "+ env.getlegalmoves());
-            System.out.println(env.currentState.blackknights);
+            System.out.println("MYROLE: "+role);
+            System.out.println("black:" + env.currentState.blackknights);
+            System.out.println("white: " + env.currentState.whiteknights);
 
             // TODO: 1. update your internal world model according to the action that was just executed
 
@@ -75,7 +78,7 @@ public class MyAgent implements Agent {
 
 
             env.makemove(x1-1,y1-1,x2-1,y2-1);
-            System.out.println(env.currentState.blackknights);
+
 
 
             return "(move " + x1 + " " + y1 + " " + x2 + " " + y2 + ")";
