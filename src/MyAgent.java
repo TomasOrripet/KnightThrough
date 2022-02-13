@@ -57,6 +57,10 @@ public class MyAgent implements Agent {
         myTurn = !myTurn;
 
         if (myTurn) {
+
+
+            MinMax minmax = new MinMax(env, true);
+            minmax.dosearch();
             LinkedList<LinkedList<Coordinates>> legalMoves = env.getLegalMoves();
             //shows knight and its legal moves
             for(int i =0; i<legalMoves.size();i++) {
@@ -79,6 +83,7 @@ public class MyAgent implements Agent {
             y1 = move.get(0).y+1;
             x2 = move.get(1).x+1;
             y2 = move.get(1).y+1;
+            System.out.printf("OUR MOVE!!!!!!!!!!!: " + x1 + " " + y1 + " " + x2 + " " + y2 + ")");
             return "(move " + x1 + " " + y1 + " " + x2 + " " + y2 + ")";
         } else {
             return "noop";

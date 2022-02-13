@@ -1,14 +1,16 @@
-/*public class Heuristic1 implements Heuristics{
+public class Heuristic1 implements Heuristics{
 
     private Environment env;
 
-    Heuristic1() {
+    Heuristic1(Environment env) {
+        this.env = env;
     }
 
     public void init(Environment env) {
         this.env = env;
     }
-*/
+
+
     /*
     Heuristic value
     +1 for each space up the board
@@ -17,25 +19,25 @@
     return 100 if you can win
     -10 if opponent can kill our piece
     return 100 if opponent can win
-     */
+    */
 
-/*
+
     public int eval(State s) {
         int h = 0;
-        while(s.white.listIterator().hasNext()){
-            if(s.white.listIterator().next().y == (s.length - 1)){
+        while(s.whiteknights.listIterator().hasNext()){
+            if(s.whiteknights.listIterator().next().y == (env.length - 1)){
                 return 100;
             }
-            h+= s.white.listIterator().next().y;
+            h+= s.whiteknights.listIterator().next().y;
 
         }
-        while(s.black.listIterator().hasNext()) {
-            if (s.black.listIterator().next().y == 0) {
+        while(s.blackknights.listIterator().hasNext()) {
+            if (s.blackknights.listIterator().next().y == 0) {
                 return -100;
             }
-            h -= s.white.listIterator().next().y;
+            h -= s.whiteknights.listIterator().next().y;
         }
-        h+= (s.white.size()-s.black.size())*10;
+        h+= (s.whiteknights.size()-s.whiteknights.size())*10;
         return h;
-    }*/
-//}
+    }
+}

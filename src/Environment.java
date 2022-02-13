@@ -1,7 +1,4 @@
-import java.security.KeyPair;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 
 
@@ -9,7 +6,7 @@ public class Environment {
 
     public int width, length;
     public State currentState;
-    private boolean role; // if agent is white then true
+    public boolean role; // if agent is white then true
 
 
 
@@ -21,14 +18,16 @@ public class Environment {
 
     }
 
-    public void updateboard(int x1, int y1, int x2, int y2,String roleOfLast){
+    public State updateboard(int x1, int y1, int x2, int y2,String roleOfLast){
         makemove(x1-1, y1-1, x2-1, y2-1, roleOfLast);
-        currentState = new State(
+        return new State(
                 currentState.updateBoard(x1, y1, x2, y2, roleOfLast),
                 currentState.whiteknights,
                 currentState.blackknights
                 );
+
     }
+
 
     public void makemove(int x1, int y1, int x2, int y2, String RoleOfLast){
         // moves position of knight in knight array
