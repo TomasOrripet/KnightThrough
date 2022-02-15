@@ -6,82 +6,108 @@ public class MinMax {
     public Environment env;
     public State state;
     public Heuristics h;
-    public int maxdepth;
+    public int maxdepth, nodesExpanded;
     public boolean role;
+    public Node root;
 
     public MinMax(Environment env, Boolean role) {
         this.env = env;
         this.maxdepth = 4;
+        this.nodesExpanded = 0;
         this.h = new Heuristic(env);
         this.role = role;
-        //this.root = new Node(env.currentState,h.eval(env.currentState),role);
+        //this.root = new Node(env.currentState, h.eval(env.currentState), role);
         //this.state = env.currentState;
     }
 
 
     public LinkedList<Coordinates> MinMax_Decision(State state) {
-        Node node = dosearch(new Node(state, h.eval(state), role));
-        return node.move;
+        root = new Node(state, h.eval(state), role);
+        if (root.role) {
+            return getMax(root).move;
+        } else {
+            return getMin(root).move;
+        }
     }
 
-    public Node getMin(Node parent){
+    public Node getMin(Node parent) {
         State clonestate = (State) parent.state.clone();
         ListIterator<LinkedList<Coordinates>> legalMoves = env.getLegalMoves(clonestate, parent.role).listIterator();
         Node child = null;
-        Node best = parent;
+        Node best = null;
         ArrayList<Node> nodes = new ArrayList<Node>();
         while (legalMoves.hasNext()) {
 
             LinkedList<Coordinates> move = legalMoves.next();
             State next_state = env.getNextState(move.get(0), move.get(1), clonestate, parent.role);
-            child = new Node(parent, next_state,move, h.eval(next_state));
-            if (child.depth<maxdepth){
-                best = getMax(child);
-
+            //child = new Node(parent, next_state, move, 0);
+            if (parent.depth < maxdepth) {
+                this.nodesExpanded++;
+                child = new Node(parent, next_state, move, 0);
+                child.evaluation = getMax(child).evaluation;
+            } else {
+                this.nodesExpanded++;
+                child = new Node(parent, next_state, move, h.eval(next_state));
             }
-            if (child.compareTo(best) < 0){
+
+            if (best == null) {
+                best = child;
+            }
+            if (best.evaluation > child.evaluation) {
                 best = child;
             }
             nodes.add(child);
         }
-        System.out.printf("worst Returns:"+ best+"\n");
-        System.out.printf("all Nodes; "+ nodes+"\n");
+        //System.out.printf("worst Returns:" + best + "\n");
+        //System.out.printf("All moves: "+nodes);
+        if (best == null){
+            return new Node(clonestate,0, !parent.role);
+        }
         return best;
     }
 
-    public Node getMax(Node parent){
+    public Node getMax(Node parent) {
         State clonestate = (State) parent.state.clone();
         ListIterator<LinkedList<Coordinates>> legalMoves = env.getLegalMoves(clonestate, parent.role).listIterator();
         Node child = null;
-        Node best = parent;
+        Node best = null;
         ArrayList<Node> nodes = new ArrayList<Node>();
         while (legalMoves.hasNext()) {
-
             LinkedList<Coordinates> move = legalMoves.next();
             State next_state = env.getNextState(move.get(0), move.get(1), clonestate, parent.role);
-            child = new Node(parent, next_state,move, h.eval(next_state));
-            if (child.depth<maxdepth){
-                best = getMin(child);
+            if (parent.depth < maxdepth) {
+                this.nodesExpanded++;
+                child = new Node(parent, next_state, move, 0);
+                child.evaluation = getMin(child).evaluation;
 
+            } else {
+                this.nodesExpanded++;
+                child = new Node(parent, next_state, move, h.eval(next_state));
             }
-            if (child.compareTo(best) > 0){
+            if (best == null) {
+                best = child;
+            }
+            if (best.evaluation < child.evaluation) {
                 best = child;
             }
             nodes.add(child);
         }
-        System.out.printf("worst Returns:"+ best+"\n");
-        System.out.printf("all Nodes; "+ nodes+"\n");
+        //System.out.printf("best Return:" + best + "\n");
+        //System.out.printf("All moves: "+nodes+"\n");
+        if (best == null){
+            return new Node(clonestate,0, !parent.role);
+        }
         return best;
     }
+}
 
 
-    public Node dosearch(Node parent) {
+    /*public Node dosearch(Node parent) {
 
         State clonestate = (State) parent.state.clone();
         ListIterator<LinkedList<Coordinates>> legalMoves = env.getLegalMoves(clonestate, parent.role).listIterator();
         Node child = null;
         Node best = parent;
-        while (legalMoves.hasNext()) {
             if (parent.role){
                 return getMax(parent);
             }
@@ -101,10 +127,11 @@ public class MinMax {
             if (best.compareTo(child) < 0) {
                 best = child;
             }
-*/
+
         }
         System.out.printf("best Node: "+best+"\n");
 
         return best;
     }
 }
+*/

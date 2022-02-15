@@ -14,7 +14,6 @@ public class Node implements Comparable<Node> {
      * @param val the evaluation of this node
      */
     public Node(State state, int val, boolean role) {
-        System.out.print("create Node");
         this.parent = null;
         this.state = state;
         this.move = null;
@@ -45,6 +44,6 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node o) {
-        return this.evaluation - o.evaluation;
+        return Math.abs(this.evaluation) - o.evaluation;
     }
 }

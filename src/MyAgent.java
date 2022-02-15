@@ -9,6 +9,7 @@ public class MyAgent implements Agent {
     private boolean myTurn; // whether it is this agent's turn or not
     private int width, height; // dimensions of the board
     public Environment env;
+    public MinMax minmax;
 
 
 
@@ -23,6 +24,7 @@ public class MyAgent implements Agent {
         this.width = width;
         this.height = height;
         this.env = new Environment(width, height, role);
+        this.minmax = new MinMax(env, role.equals("white"));
 
 
         // TODO: add your own initialation code here
@@ -58,7 +60,7 @@ public class MyAgent implements Agent {
 
         if (myTurn) {
 
-            MinMax minmax = new MinMax(env, role.equals("white"));
+
             LinkedList<Coordinates> move = minmax.MinMax_Decision(env.currentState);
             System.out.printf("Move: "+move+"\n");
 
