@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -28,6 +29,7 @@ public class MinMax {
         ListIterator<LinkedList<Coordinates>> legalMoves = env.getLegalMoves(clonestate, parent.role).listIterator();
         Node child = null;
         Node best = parent;
+        ArrayList<Node> nodes = new ArrayList<Node>();
         while (legalMoves.hasNext()) {
 
             LinkedList<Coordinates> move = legalMoves.next();
@@ -35,12 +37,15 @@ public class MinMax {
             child = new Node(parent, next_state,move, h.eval(next_state));
             if (child.depth<maxdepth){
                 best = getMax(child);
-                System.out.printf("maxNode"+best);
+
             }
             if (child.compareTo(best) < 0){
                 best = child;
             }
+            nodes.add(child);
         }
+        System.out.printf("worst Returns:"+ best+"\n");
+        System.out.printf("all Nodes; "+ nodes+"\n");
         return best;
     }
 
@@ -49,6 +54,7 @@ public class MinMax {
         ListIterator<LinkedList<Coordinates>> legalMoves = env.getLegalMoves(clonestate, parent.role).listIterator();
         Node child = null;
         Node best = parent;
+        ArrayList<Node> nodes = new ArrayList<Node>();
         while (legalMoves.hasNext()) {
 
             LinkedList<Coordinates> move = legalMoves.next();
@@ -56,12 +62,15 @@ public class MinMax {
             child = new Node(parent, next_state,move, h.eval(next_state));
             if (child.depth<maxdepth){
                 best = getMin(child);
-                System.out.printf("min Node: "+ best);
+
             }
             if (child.compareTo(best) > 0){
                 best = child;
             }
+            nodes.add(child);
         }
+        System.out.printf("worst Returns:"+ best+"\n");
+        System.out.printf("all Nodes; "+ nodes+"\n");
         return best;
     }
 
