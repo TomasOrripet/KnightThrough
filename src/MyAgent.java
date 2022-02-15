@@ -1,8 +1,7 @@
 import java.util.LinkedList;
-import java.util.Random;
+
 
 public class MyAgent implements Agent {
-    private Random random = new Random();
 
     private String role; // the name of this agent's role (white or black)
     private int playclock; // this is how much time (in seconds) we have before nextAction needs to return a move
@@ -60,9 +59,12 @@ public class MyAgent implements Agent {
 
         if (myTurn) {
 
-
+            final long startTime = System.currentTimeMillis();
             LinkedList<Coordinates> move = minmax.MinMax_Decision(env.currentState);
             System.out.printf("Move: "+move+"\n");
+            System.out.printf("nodes expanded: "+minmax.nodesExpanded+"\n");
+            final long endTime = System.currentTimeMillis();
+            System.out.println("Total execution time(ms): " + (endTime - startTime));
 
             // TODO: 2. run alpha-beta search to determine the best move
 

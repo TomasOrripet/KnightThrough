@@ -132,6 +132,7 @@ public class Environment {
                     legalmove.add(place);
                     legalmove.add(new Coordinates(place.x - 1, place.y + 1));
                     legalmoves.add(legalmove);
+                    legalmove = new LinkedList<Coordinates>();
                 }
             }
         }
@@ -175,6 +176,7 @@ public class Environment {
                     legalmove.add(place);
                     legalmove.add(new Coordinates(place.x - 1, place.y - 1));
                     legalmoves.add(legalmove);
+                    legalmove = new LinkedList<Coordinates>();
                 }
             }
         }
