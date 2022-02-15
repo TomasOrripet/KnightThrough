@@ -37,10 +37,10 @@ public class MyAgent implements Agent {
             String roleOfLastPlayer;
             if (myTurn && role.equals("white") || !myTurn && role.equals("black")) {
                 roleOfLastPlayer = "white";
-                env.updateboard(x1,y1,x2,y2, "W");
+                env.doAction(new Coordinates((x1-1),(y1-1)), new Coordinates((x2-1),(y2-1)),true);
             } else {
                 roleOfLastPlayer = "black";
-                env.updateboard(x1,y1,x2,y2, "B");
+                env.doAction(new Coordinates((x1-1),(y1-1)), new Coordinates((x2-1),(y2-1)),false);
             }
             System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
             // prints board
@@ -58,32 +58,19 @@ public class MyAgent implements Agent {
 
         if (myTurn) {
 
+            MinMax minmax = new MinMax(env, role.equals("white"));
+            LinkedList<Coordinates> move = minmax.MinMax_Decision(env.currentState);
+            System.out.printf("Move: "+move+"\n");
 
-            MinMax minmax = new MinMax(env, true);
-            minmax.dosearch();
-            LinkedList<LinkedList<Coordinates>> legalMoves = env.getLegalMoves();
-            //shows knight and its legal moves
-            for(int i =0; i<legalMoves.size();i++) {
-                System.out.printf("knight:" + legalMoves.get(i).get(0) + "\n");
-                System.out.printf("\tLegal moves: " + legalMoves.get(i).subList(1, legalMoves.get(i).size())+"\n");
-            }
             // TODO: 2. run alpha-beta search to determine the best move
-            int index = random.nextInt(legalMoves.size());
-            LinkedList<Coordinates> move = legalMoves.get(index);
-            
-            // if knight has no moves we get new knight
-            // TODO: we should implement the search here
-            // after we get all moves we search through them all
-            while(move.size() <= 1){
-                index = random.nextInt(legalMoves.size());
-                move = legalMoves.get(index);
-            }
+
+
+
             int x1, y1, x2, y2;
             x1 = move.get(0).x+1;
             y1 = move.get(0).y+1;
             x2 = move.get(1).x+1;
             y2 = move.get(1).y+1;
-            System.out.printf("OUR MOVE!!!!!!!!!!!: " + x1 + " " + y1 + " " + x2 + " " + y2 + ")");
             return "(move " + x1 + " " + y1 + " " + x2 + " " + y2 + ")";
         } else {
             return "noop";

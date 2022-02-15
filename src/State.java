@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class State {
+public class State implements Cloneable {
 
     //public List<String> temp;
     public ArrayList<List<String>> board;
@@ -49,24 +49,38 @@ public class State {
 
     }
 
-    public State(ArrayList<List<String>> board, ArrayList<Coordinates> white, ArrayList<Coordinates> black){
-        // updates state from move played by player of agent
-        this.whiteknights = white;
-        this.blackknights = black;
+    public State(ArrayList<Coordinates> whiteknights, ArrayList<Coordinates> blackknights, ArrayList<List<String>> board ){
         this.board = board;
+        this.whiteknights = whiteknights;
+        this.blackknights = blackknights;
+    }
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) { return null; }
     }
 
     public boolean isEmpty(int x,int y){
-        if (board.get(y).get(x) == " " ){
-            return true;
+        if (blackknights.contains(new Coordinates(x,y))|| whiteknights.contains(new Coordinates(x,y))){
+            return false;
         }
-        return false;
+        return true;
 
     }
-    public boolean canAttack(int x, int y, String role){
-        if (board.get(y).get(x) == role ) {
-            return true;
+    public boolean canAttack(int x, int y, Boolean white){
+        if (white){
+            if(blackknights.contains(new Coordinates(x,y))){
+                return true;
+            }
         }
+        else{
+            if (whiteknights.contains(new Coordinates(x,y))){
+                return true;
+            }
+        }
+
+
         return false;
     }
 
